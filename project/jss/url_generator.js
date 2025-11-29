@@ -58,7 +58,7 @@ export default class URLGenerator {
     };
 
     static baseUrlTMDB = "https://api.themoviedb.org/3";
-    static httpBaseUrlTmdb = "https://api.themoviedb.org/3"
+    static httpBaseUrlTmdb = "http://api.themoviedb.org/3"
 
     static tableEndpoints = {
         movies: '/movie',
