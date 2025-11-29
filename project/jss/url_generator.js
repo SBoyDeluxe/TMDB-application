@@ -43,7 +43,7 @@ export default class URLGenerator {
     static options = {
         method: 'GET',
         credentials : `omit`,
-        "Access-Control-Allow-Origin" : "http://127.0.0.1:5500'",
+        "Access-Control-Allow-Origin" : "https://127.0.0.1:5500'",
         "Vary": "Origin",
 
 
@@ -57,7 +57,7 @@ export default class URLGenerator {
         }
     };
 
-    static baseUrlTMDB = "http://api.themoviedb.org/3";
+    static baseUrlTMDB = "https://api.themoviedb.org/3";
     static httpBaseUrlTmdb = "https://api.themoviedb.org/3"
 
     static tableEndpoints = {
