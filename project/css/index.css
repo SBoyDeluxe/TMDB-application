@@ -1,0 +1,310 @@
+/* Set height of body and the document to 100% to enable "full page tabs" */
+body,
+html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+}
+
+/* Style tab links */
+.tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 33.33%;
+}
+
+.tablink:hover {
+    background-color: #777;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: white;
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+}
+
+
+
+/*For the resultboxes, declaring the hidden genres of select categories (person/tv/movie)*/
+.not_displayed_results,
+.not_displayed_results>* {
+    display: none;
+
+
+}
+
+.displayed_results>* {
+
+    display: contents;
+}
+
+.displayed_results picture {
+
+    cursor: pointer;
+}
+
+.displayed_result_div >img,picture{
+    cursor: pointer;
+}
+
+/*declaring elements to be shown specific to the current results */
+.displayed_element,
+.displayed_element>* {
+    display: inline-block;
+
+}
+
+.not_displayed_element,
+.not_displayed_element>* {
+
+    display: none;
+}
+
+#titlediv {
+    flex-direction: row;
+    margin-top: 0px;
+    border-bottom: 0.5vh dotted black;
+
+
+
+
+}
+
+#header_div {
+
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    background-color: aquamarine;
+    height: auto;
+    border: 1vh solid black;
+
+}
+
+#title_element {
+
+    padding-block: 1px;
+    height: min-content;
+
+
+
+}
+
+
+#navigation_div {
+    display: grid;
+    z-index: 3;
+    width: 100%;
+    grid-auto-rows: 50% 50%;
+
+
+}
+
+#back_button {
+    display: inline-block;
+    border: 0.3dvh solid black;
+    height: 10dvh;
+    z-index: 5;
+    padding: 0px;
+    margin-bottom: 0px;
+    align-self: flex-start;
+    background-color: white;
+    cursor: pointer;
+}
+
+#nav_result_title {
+    display: inline;
+    position: relative;
+    left: 20%;
+
+
+
+
+}
+
+#focused_background_div {
+    anchor-name: --graybox;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    align-content: center;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+
+
+
+    top: 0px;
+    left: 0px;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: #808080BB;
+
+
+    overflow-y: auto;
+    margin: 0px;
+
+
+
+    z-index: 2;
+
+}
+
+/* /* .focused {
+
+
+    
+
+} */
+#result_focused_div {
+    display: flex;
+    flex-direction: column;
+    justify-items: start;
+    align-items: center;
+    z-index: 4;
+    overflow-y: auto;
+    height: auto;
+
+
+    background-size: (contain);
+    background-repeat: (no-repeat);
+
+    background-color: gray;
+}
+
+#result_focused_div .ruby_div {
+    display: inline;
+    font-size: 1.7rem;
+
+    background-color: darkred;
+    color: aquamarine;
+    align-content: center;
+    width: 30dvw;
+}
+
+#main_result_wrapper_div {
+
+    display: block;
+    height: fit-content;
+    width: fit-content;
+    overflow-y: auto;
+
+
+}
+
+
+.focused picture>img {
+
+    max-width: 40vw;
+    max-height: 40vh;
+
+}
+
+#result_focused_div>h5,
+#result_focused_div>h4 {
+    background-color: darkred;
+    background-image: transparent;
+    background-blend-mode: hue;
+    color: aquamarine;
+    padding: 2%;
+    border-radius: 100%;
+    height: min-content;
+
+}
+
+#result_focused_div>div.ruby_div>ruby>rt {
+    display: inline-block;
+    text-wrap: pretty;
+    padding: 1rem;
+}
+
+
+
+#on_focused_details_wrapper_div {
+    /*  display: flex;
+    flex-direction: column; */
+
+
+    overflow-y: auto;
+
+    height: auto;
+    padding-bottom: 1rem;
+    width: 50dvw;
+
+    background-color: gray;
+    opacity: 0.95;
+    border: 0.3dvh solid black;
+
+
+
+
+}
+
+/* 
+#on_focused_details_wrapper_div summary{
+    color: aquamarine;
+    background-color: darkred;
+    border: 0.3dvh solid black;
+    height: fit-content;
+
+
+} */
+
+#on_focused_details_wrapper_div details h5,
+#on_focused_details_wrapper_div details p,
+#on_focused_details_wrapper_div details {
+    color: aquamarine;
+    background-color: darkred;
+    border: 0.3dvh solid black;
+    overflow-y: auto;
+
+
+}
+
+#on_focused_details_wrapper_div details div {
+    height: min-content;
+    background-color: gray;
+    border: 0.3dvh solid black;
+    overflow-y: auto;
+}
+
+#on_focused_details_wrapper_div details {
+
+    border: 0.3dvh solid aquamarine;
+    overflow-y: auto;
+
+}
+
+/* .focused h4{
+        
+
+    background-color: transparent;
+    align-self: center;
+    align-content: flex-end;
+    padding-block: 1%;
+    background-blend-mode: difference, overlay;
+    font-size: 2em;
+    background-color: rgba(15, 1, 143, 0.65) ;
+    width: 100%;
+
+
+
+
+} */
+
+#tv_top_10_filter_results_div {
+    display: grid;
+    grid-auto-flow: column;
+
+}

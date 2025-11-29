@@ -1,0 +1,7 @@
+GET  https://api.themoviedb.org/3/search/person?query=brad p HTTP/1.1
+accept: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiZmE2MTU5NWQ4ZTczY2EyMTFkM2E1OGMxYzM4MjBjNSIsIm5iZiI6MTc0NjIyNzkyNC4zMDIsInN1YiI6IjY4MTU1MmQ0N2EzODY2YjM2YTAzMGNlYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.aGRt22WqqAJ3mtbNAxhHEuTzRSFOt5vfDgu8M7e_ZlQ 
+Cache-Control : no-cache
+ 
+    
+

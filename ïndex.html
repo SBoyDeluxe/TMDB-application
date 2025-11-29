@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GritFlicks : Greatest cinematic hits & lists</title>
+    <script src="./project/jss/main.js" type="module"> </script>
+    <link rel="stylesheet" href="./project/css/index.css">
+</head>
+
+<body>
+    <div id="language_selection_div">
+
+        <!-- A template for the language selection interface to be shown before displaying the primary home page content-->
+        <fieldset>
+            <legend>
+                <h3>Select Language</h3>
+            </legend>
+
+            <!-- progress_bar_div is showing during loading of language-selection resources -> #progress_bar_div{display : gone} 
+         -> #language_selection_div{display: block}-->
+            <div id="progress_bar_div">
+                <progress id="progress_bar"> Please wait...</progress>
+
+            </div>
+            <label for="language_selection_list"> Language : </label>
+            <select id="language_selection_list">
+                <!-- Options are added here from JS, we add evenlisteners for input => Upon selecting any option
+                             the text element with the name/id language_selected can be used to retrieve choice   -->
+
+            </select>
+
+            <button id="select_language_button"> Select language </button>
+
+        </fieldset>
+    </div>
+
+    <article id="header_article">
+
+        <header id="header_element">
+            <div id="header_div">
+
+                <section id="title_section">
+                    <div id="titlediv">
+                        <!--Leads to home page on click-->
+                        <h1 id="title_element">GritFlicks : Greatest cinematic hits & lists</h1>
+                    </div>
+                </section>
+                <section id="navigation_section">
+                    <div id="navigation_div">
+                        <nav accesskey="N" id="navigation_menu" role="navigation">
+                            <!-- add all endpoints, search <person|tv|person|>, browse <person|tv|movie|>, discover,
+                                     trending : <person|tv|movie|>, change country/translation...-->
+
+                            <button class="tablink" id="person_tab_button">People</button>
+                            <button class="tablink" id="tv_shows_tab_button">Tv-shows</button>
+                            <button class="tablink" id="movie_tab_button">Movies</button>
+
+                        </nav>
+                    </div>
+                </section>
+    </article>
+
+    </header>
+
+    </div>
+
+    <main accesskey="m" class="main_content" id="main_element">
+        <div id="main_div">
+
+            <div class="wrapper_div not_displayed_results  " id="tv_series_wrapper_div">
+                <article id="tv_series_article_element" class="search_results_article">
+                    <section id="tv_series_header_section">
+
+                        <header id="tv_series_header_element">
+                            <h2 class="selection_title" id="tv_series_selection_title">Top 10 Series</h2>
+                            <select id="tv_list_select">
+                            </select>
+                            <label for="tv_number_of_results">Number of results per page</label>
+                            <input id="tv_number_of_results" type="number" min="1" max="20" value="10">
+                            <button id="tv_refresh_results">Refresh</button>
+                            <button id="tv_next_page">Next</button>
+                            <form id="tv-search-form">
+
+                                <legend>Search : Tv-Shows </legend>
+                                <fieldset>
+                                    <legend>Search options</legend>
+                                    <label for="checkbox_date_input">Premiere date</label>
+                                    <input type="checkbox" id="tv_checkbox_date_input" name="tv_checkbox_date_input"
+                                        value="First air date">
+                                    <label for="tv_checkbox_year_input">Release year</label>
+                                    <input type="checkbox" id="tv_checkbox_year_input" name="tv_checkbox_year_input"
+                                        value="Release year">
+
+                                </fieldset>
+                                <input id="tv_search_text_input" type="text"
+                                    placeholder="Enter keyword to search for tvs matching that keyword">
+                                <input id="tv_search_date_input" type="date">
+                                <input id="tv_search_year_input" type="range" min="1878" ,value="2025" ,max="2025">
+                                <!--We add multi-selectable radio buttons to filter on genres in js-->
+                                <button type="submit" class="search_button" id="tv_search_form_button">Search</button>
+
+
+                                </fieldset>
+                            </form>
+                    </section>
+                    </header>
+                    </section>
+
+                    <br>
+
+                    <section id="tv_series_main_section">
+                        <main accesskey="1" id="tv_series_main_element">
+                            <div class="filter_results_div" , id="tv_series_selection_div">
+
+                            </div>
+                        </main>
+
+                    </section>
+                    <section id="tv_series_selection_section">
+                        <footer id="tv_series_footer_element">
+                            <fieldset>
+                                <legend>Search : Tv-shows </legend>
+                                <select id="tv_search_filter_select">
+                                    <!--Add options to designate what options to search on : Keyword, year etc, singular option-->
+                                </select>
+                                <div class="search_input_div" id="tv_search_input_div">
+                                    <input id="tv_search_input" type="text"
+                                        placeholder="Enter a show title to search for">
+                                    <!--We add multi-selectable radio buttons to filter on genres in js-->
+                                </div>
+                                <button class="search_button" id="tv_search_form_button">Search</button>
+                                </form>
+                            </fieldset>
+                        </footer>
+                    </section>
+                </article>
+            </div>
+            <div class="wrapper_div displayed_results" id="movie_wrapper_div">
+                <article id="movies_article_element" class="search_results_article">
+                    <section id="movies_header_section">
+                        <header id="movies_header_element">
+                            <h2 id="movie_selection_title">Top 10 Movies</h2>
+                            <select id="movie_list_select">
+                                <!--Add options to designate what options to search on : Keyword, year etc-->
+                            </select>
+
+                            <label for="movie_number_of_results">Number of results per page</label>
+                            <input id="movie_number_of_results" type="number" min="1" max="20" value="10">
+                            <button id="movie_refresh_results">Refresh</button>
+                            <button id="movie_next_page">Next</button>
+
+                            <section id="movie_selection_section">
+                                <form id="movie-search-form">
+
+                                    <fieldset>
+                                        <legend>Search : Movies </legend>
+                                        <fieldset>
+                                            <legend>Search options</legend>
+                                            <label for="checkbox_date_input">Premiere date</label>
+                                            <input type="checkbox" id="checkbox_date_input" name="checkbox_date_input"
+                                                value="First air date">
+                                            <label for="checkbox_year_input">Release year</label>
+                                            <input type="checkbox" id="checkbox_year_input" name="checkbox_year_input"
+                                                value="Release year">
+
+                                        </fieldset>
+                                        <input id="movie_search_text_input" type="text"
+                                            placeholder="Enter keyword to search for movies matching that keyword">
+                                        <input id="movie_search_date_input" type="date">
+                                        <input id="movie_search_year_input" type="number" min="1878" ,value="2025"
+                                            ,max="2025">
+                                        <!--We add multi-selectable radio buttons to filter on genres in js-->
+                                        <button class="search_button" id="movie_search_form_button">Search</button>
+
+
+                                    </fieldset>
+                                </form>
+                            </section>
+
+
+                        </header>
+                    </section>
+
+                    <br>
+
+                    <section id="movies_main_section">
+                        <main accesskey="2" id="movies_main_element">
+                            <div class="filter_results_div" , id="movie_selection_div">
+
+                                <!--Add movieResults here, with images, releaseDate and title projected for-->
+                            </div>
+                        </main>
+
+                    </section>
+
+
+                </article>
+            </div>
+            <div class="wrapper_div not_displayed_results" id="person_wrapper_div">
+                <article id="person_article_element" class="person_search_results">
+                    <section id="person_header_section">
+                        <header id="person_header_element">
+                            <h2 class="selection_title" id="people_title_of_selection">Top 10 Top Rated People in the
+                                industry
+                            </h2>
+
+                            <select id="person_list_select">
+                                <!--Add options to designate what options to search on : Keyword, year etc-->
+                            </select>
+                            <input id="person_number_of_results" type="number" min="1" max="20" value="10">
+                            <button id="person_refresh_results">Refresh</button>
+                            <button id="person_next_page">Next</button>
+
+                            <section id="person_selection_section">
+                                <form id="person-search-form">
+                                    <fieldset>
+                                        <legend>Search : People </legend>
+                                        <input id="person_search_input" type="text"
+                                            placeholder="Enter name to search for person">
+                                        <!--We add multi-selectable radio buttons to filter on genres in js-->
+                                        <button class="search_button" id="person_search_form_button">Search</button>
+
+                                    </fieldset>
+                                </form>
+                            </section>
+
+
+
+                        </header>
+                    </section>
+
+                    <br>
+
+                    <section id="person_main_section">
+                        <main accesskey="2" id="person_main_element">
+                            <div class="filter_results_div" , id="person_selection_div">
+
+                                <!--Add movieResults here, with images, releaseDate and title projected for-->
+                            </div>
+                        </main>
+
+                    </section>
+
+                </article>
+            </div>
+        </div>
+
+    </main>
+    <footer accesskey="f" class="page_footer">
+
+    </footer>
+
+
+</body>
+
+</html>
