@@ -175,13 +175,12 @@ html {
 
 } */
 #result_focused_div {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     justify-items: start;
     align-items: center;
     z-index: 4;
-    overflow-y: auto;
-    height: auto;
+    height: fit-content;
 
 
     background-size: (contain);
