@@ -1,0 +1,385 @@
+-request GET \
+     --url 'https://api.themoviedb.org/3/movie/11' \
+     --header 'Authorization: Bearer <eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiZmE2MTU5NWQ4ZTczY2EyMTFkM2E1OGMxYzM4MjBjNSIsIm5iZiI6MTc0NjIyNzkyNC4zMDIsInN1YiI6IjY4MTU1MmQ0N2EzODY2YjM2YTAzMGNlYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.aGRt22WqqAJ3mtbNAxhHEuTzRSFOt5vfDgu8M7e_ZlQ>'
+     --header 'accept: application/json'
+     api_key : bfa61595d8e73ca211d3a58c1c3820c5
+
+  Guest-session:
+        1)Generates a token to be used for guest authentication (enables)   
+        https://api.themoviedb.org/3/authentication/guest_session/new
+       {
+            "success": true,
+            "guest_session_id": "fda4f3124e49842d49dbfd283ad7453f",
+            "expires_at": "2025-05-04 05:28:01 UTC"
+        }
+        2) use session_id to gain access to rate functionality
+        3) Next response contains a header "Authentication-Callback"
+
+
+  Error: When some call to the api can´t return a resource we get the following object:
+         {
+            "success": false,
+            "status_code": 34,
+            "status_message": "The resource you requested could not be found."
+        }
+
+        Contains : response[success&status_code&status_message]
+
+        see api_error_list.txt for complete list, for our purposes the following cases are notable:
+          status_code  Http_status                      status_message 
+            20	       422	        Invalid date range: Should be a range no longer than 14 days.
+            43	       502	        Couldn't connect to the backend server.
+            47	       400	        The input is not valid.
+            29	       400	        You must confirm this action: Please provide a confirm=true parameter.
+            24	       504	        Your request to the backend server timed out. Try again.
+            22	       400	        Invalid page: Pages start at 1 and max at 500. They are expected to be an integer.
+            20	       422	        Invalid date range: Should be a range no longer than 14 days.
+            11	       500	        Internal error: Something went wrong, contact TMDB.
+            9	       503	        Service offline: This service is temporarily offline, try again later.
+            25	       429	        Your request count (#) is over the allowed limit of (40).
+            33	       401	        Invalid request token: The request token is either expired or invalid.
+            44	       500	        The ID is invalid.
+            46	       503	        The API is undergoing maintenance. Try again later.
+            27	       400	        Too many append to response objects: The maximum number of remote calls is 20.
+
+                        47	       400	        The input is not valid.
+                                    22	       400	        Invalid page: Pages start at 1 and max at 500. They are expected to be an integer.
+                            9	       503	        Service offline: This service is temporarily offline, try again later.
+                        25	       429	        Your request count (#) is over the allowed limit of (40).
+                                    46	       503	        The API is undergoing maintenance. Try again later.
+
+
+
+- Search:
+     --request GET \
+     --url 'https://api.themoviedb.org/3/search/movie?query=Jack+Reacher' \
+     --header 'Authorization: Bearer <<access_token>>'
+
+ - Example Response:
+
+ results :{  
+  "poster_path": "/IfB9hy4JH1eH6HEfIgIGORXi5h.jpg",  
+  "adult": false,  
+  "overview": "Jack Reacher must uncover the truth behind a major government conspiracy in order to clear his name. On the run as a fugitive from the law, Reacher uncovers a potential secret from his past that could change his life forever.",  
+  "release_date": "2016-10-19",  
+  "genre_ids": [  
+    53,  
+    28,  
+    80,  
+    18,  
+    9648  
+  ],  
+  "id": 343611,  
+  "original_title": "Jack Reacher: Never Go Back",  
+  "original_language": "en",  
+  "title": "Jack Reacher: Never Go Back",  
+  "backdrop_path": "/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg",  
+  "popularity": 26.818468,  
+  "vote_count": 201,  
+  "video": false,  
+  "vote_average": 4.19  
+}
+
+-> Use movie id to query all details about specific movie entity in DB:
+-> --request GET \
+     --url 'https://api.themoviedb.org/3/movie/343611' \
+     --header 'Authorization: Bearer <<access_token>>'
+Changes:
+     get https://api.themoviedb.org/3/movie/changes?start_date=""&end_date=""
+
+_append_to_response: Query parameter used to make subsequent calls to endpoints for the movie/person/TV-show.
+
+        Sequence of non appended responses, getting the movie with id 11 and then the videos available videos for that movie:
+
+            --request GET \
+            --url 'https://api.themoviedb.org/3/movie/11' \
+            --header 'Authorization: Bearer <<access_token>>'
+
+            --request GET \
+            --url 'https://api.themoviedb.org/3/movie/11/videos' \
+            --header 'Authorization: Bearer <<access_token>>'
+
+        appended: 
+
+         --request GET \
+         --url 'https://api.themoviedb.org/3/movie/11?append_to_response=videos' \
+         --header 'Authorization: Bearer <<access_token>>'
+
+        mutli appended:
+
+        with comma separated query parameters we can obtain several endpoints (joined table)
+
+            --request GET \
+            --url 'https://api.themoviedb.org/3/movie/11?append_to_response=videos,images' \
+            --header 'Authorization: Bearer <<access_token>>'
+        -> All query parameters can be used with their respective queries, for example the images:
+                append_to_response=videos,images?include_image_language="//...//"
+
+Getting useful configurations:
+
+       https://api.themoviedb.org/3/configuration/languages
+
+       Gets all of the ISO 639-1 tags, useful for filtering based on language/country-parameters:
+
+        Example 1 language-element:
+                {
+                        "iso_639_1": "xx",
+                        "english_name": "No Language",
+                        "name": "No Language"
+       
+                },
+
+       https://api.themoviedb.org/3/configuration/countries?api_key=bfa61595d8e73ca211d3a58c1c3820c5                 
+    
+        Gets all countries and their ISO-3166-1 tags as a list, example of element:
+
+                {
+                    "iso_3166_1": "AD",
+                    "english_name": "Andorra",
+                    "native_name": "Andorra"
+                },
+
+        https://api.themoviedb.org/3/configuration/primary_translations
+
+        full list in TheMovieDataBase\translation_keys.txt
+
+        Gets the primary translations, the codes which we can use to map to different, official translations of TMDB.
+        Will also be used as a default search parameter for image-languages, where it is mapped to a ISO-639-1 tag without
+        developer input.
+
+
+Endpoints of note: 
+    Search:
+        ./search/<movie|person|tv>?query=<endcodedStringOfSearchQuery> ; movie, person, tv all are JSON-objects/SQL-entities 
+    Gets searchable keywords for the database    
+        ./search/keyword?query=<keywordsToSearchFor>&page=<pageCurrentlyOn>
+        Example from ´year´:
+                                {
+                                    "page": 1,
+                                    "results": [
+                                        {
+                                            "id": 201689,
+                                            "name": "year"
+                                        },
+                                        {
+                                            "id": 281132,
+                                            "name": "final year of competition"
+                                        },
+                                        {
+                                            "id": 250496,
+                                            "name": "chinese new year"
+                                        },
+                                        {
+                                            "id": 252123,
+                                            "name": "new year"
+                                        },
+                                        {
+                                            "id": 171639,
+                                            "name": "yearbook"
+                                        },
+                                        {
+                                            "id": 171845,
+                                            "name": "new year's resolution"
+                                        },
+                                        {
+                                            "id": 257370,
+                                            "name": "eighty years' war"
+                                        },
+                                        {
+                                            "id": 259352,
+                                            "name": "seven years"
+                                        },
+                                        {
+                                            "id": 265536,
+                                            "name": "happy year"
+                                        },
+                                        {
+                                            "id": 292997,
+                                            "name": "year of the tiger"
+                                        },
+                                        {
+                                            "id": 293161,
+                                            "name": "yearning"
+                                        },
+                                        {
+                                            "id": 613,
+                                            "name": "new year's eve"
+                                        },
+                                        /* ... */
+                                        {//lastElement}
+                                    ],
+                                    "total_pages": 3,
+                                    "total_results": 51
+                                }
+    Multi:                            
+        Gets list of search results from the joined table of person+tv+movie-tables.
+    
+            ./search/multi?query=year&include_adult=<true|false>&language=<primaryTranslationCode>&page=<pageCurrentlyOn>
+
+    Collection:
+            Gets a list of collections matching the query.
+            /search/collection?query=<query>&include_adult<true|false>&language=<primaryTranslationCode>&page=<pageCurrentlyOn>&region=<entityFromConfigCountries>
+    Company:
+            Gets a list of companies matching said query from company-table
+            ./search/company?query=<query>&page=<pageCurrentlyOn>
+    Tv-shows:
+            Gets a list of tv-shows based on query-parameters, year-param searches on if any episodes of the show was aired that year
+            /search/tv?&first_air_date_year=<1000<=year<=9999>&query=<query>&year=<1000<=year<=9999>&page=<pageOn>&language=<languageFromTranslations>&include_adult=<true|false>
+    Movie: Gets a list of movies based on query parameters: 
+
+            /search/movie?include_adult<true|false>&year=2020&query=all&language=<languageFromTranslations>&region=<entityFromConfigCountries>&primary_release_year=<year>&page=<page>
+    Popular/:
+        ./<movie|person|tv>/popular?language=<languageFromTranslations>&page=<pageCurrentlyOn>
+        Gets a list of the selected table ordered by popularity, each page containing a number of entities(array under the key "results" ) from the queried table. 
+        Contains : 
+                "page": <pageNumberCurrentlyOn>,
+                "results": [...]
+                "total_pages": <totalPages>,
+                "total_results": <totalResults>
+    Trending:
+            Gets currently trading entities from a joined table of all or one of the movie, tv or person tables.
+            ./trending/<all|movie|tv|person>/<day|week>?language=<languageFromTranslations>            
+
+    Recomendations:
+                   Gets a líst of recomendations||similair titles based on path-parameter-entity-id.
+                   ./<movies|tv>/<entityId>/<recomendations|similair>?language=<languageFromTranslations>&page=<pageCurrentlyOn>
+
+
+            
+
+
+    Image-get:
+        https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg
+      Consists of: base-url (https for secure url) <https://image.tmdb.org/t/p/> , a file_size (size of element) : <w500/>, and a specific file_path : <1E5baAaEse26fej7uHcjOgEE2t2.jpg>
+
+    Configuration-parameters of image-query: 
+        "images": {
+        "base_url": "http://image.tmdb.org/t/p/",
+        "secure_base_url": "https://image.tmdb.org/t/p/",
+        "backdrop_sizes": [
+            "w300",
+            "w780",
+            "w1280",
+            "original"
+        ],
+        "logo_sizes": [
+            "w45",
+            "w92",
+            "w154",
+            "w185",
+            "w300",
+            "w500",
+            "original"
+        ],
+        "poster_sizes": [
+            "w92",
+            "w154",
+            "w185",
+            "w342",
+            "w500",
+            "w780",
+            "original"
+        ],
+        "profile_sizes": [
+            "w45",
+            "w185",
+            "h632",
+            "original"
+        ],
+        "still_sizes": [
+            "w92",
+            "w185",
+            "w300",
+            "original"
+        ]
+    }
+
+Genres:
+    Gets a list of available genres
+    ./genre/<tv|movie>/list
+            Example:
+            "genres": [
+                        {
+                            "id": 28,
+                            "name": "Action"
+                        },
+                    //....
+
+            ]
+
+ Person: 
+
+            Example:
+            {
+            "adult": false,
+            "gender": 0,
+            "id": 2390405,
+            "known_for_department": "Acting",
+            "name": "John",
+            "original_name": "John",
+            "popularity": 0.0289,
+            "profile_path": null,
+            "known_for": [
+                {
+                    "backdrop_path": "/4tKAr02RUZOtyg9P4UsIXDnUkm2.jpg",
+                    "id": 624146,
+                    "title": "Adhrushyam",
+                    "original_title": "Adhrushyam",
+                    "overview": "Adhrushyam is a Telugu movie released 2019. It’s directed by Ravi Prakash Krishnamsetty and Angana Roy play as lead in the film",
+                    "poster_path": "/saisC5vHY87g9Gj2if1UEB2w8Wi.jpg",
+                    "media_type": "movie",
+                    "adult": false,
+                    "original_language": "en",
+                    "genre_ids": [
+                        27,
+                        53
+                    ],
+                    "popularity": 0.1235,
+                    "release_date": "2019-03-22",
+                    "video": false,
+                    "vote_average": 0.0,
+                    "vote_count": 0
+                }
+            ]
+        },
+
+
+/discover:
+
+            
+
+/find: 
+        ./find/
+
+
+
+
+
+
+
+ Takeaway on planning of models for javascript based projects:
+
+ As seen in the use of SR*-objects one could potentially make a superclass, where we via writing dynamically adaptive 
+ functions could present any number of object classes without sitting to write out the code ourselves.
+                                    *apiUrls - The urls for the api, in this specific project : imageBaseUrl and base_url
+                                    *endpoints - The tables  
+ Call this superclass ApiApplication(apiUrls, endpoints) : function  getTableSelection(endpoint) : DTO -> All based on fetchCalls, resulting
+                                                           resulting in json-objects : {arrays, primitiveData[string, number,   
+                                                           boolean, null], objects : {key : primitiveData}. 
+                                                           }. With a conversion schema  one could 
+                                                           function  getImageSelection(endpoint) : string, hrefForImageElement,
+                                                           function presentSelection(selection,parentElement, presentationElement) : void
+                                                           function removeSelection(presentationElement) : void
+                                                           function presentInputElement(typeOfInput, endpoint, queryParameters, onSubmitFunction()=>) : void ()
+                                                            
+ 
+ 
+ 
+ 
+ *(single-responsibility ; 
+                    [UrlGenerator: generates and handles endpoints, 
+                    ApiClient:Interacts with urls, handling conversion of SQL-table-entities to application specific 
+                    objects, 
+                    UiDataObject:Presents the data from the ApiClient on screen])        
+
+
