@@ -79,12 +79,18 @@
                             </select>
                             <label for="tv_number_of_results">Number of results per page</label>
                             <input id="tv_number_of_results" type="number" min="1" max="20" value="10">
-                            <button id="tv_refresh_results">Refresh</button>
-                            <button id="tv_next_page">Next</button>
+                           <p>
+                                Hit refresh to apply new list-selection options (Top-rated, popular, trending and time frame for trending-list) 
+                                or return to page one with current list-selection.
+                                A change of nummber of elements per page gets activated on getting next page 
+
+                            </p>
+                            <button id="tv_refresh_results">Refresh list </button>
+                            <button id="tv_next_page">Next page</button>
                             <form id="tv-search-form">
 
                                 <legend>Search : Tv-Shows </legend>
-                                <fieldset>
+                                <fieldset class="search-option-field">
                                     <legend>Search options</legend>
                                     <label for="checkbox_date_input">Premiere date</label>
                                     <input type="checkbox" id="tv_checkbox_date_input" name="tv_checkbox_date_input"
@@ -119,21 +125,7 @@
 
                     </section>
                     <section id="tv_series_selection_section">
-                        <footer id="tv_series_footer_element">
-                            <fieldset>
-                                <legend>Search : Tv-shows </legend>
-                                <select id="tv_search_filter_select">
-                                    <!--Add options to designate what options to search on : Keyword, year etc, singular option-->
-                                </select>
-                                <div class="search_input_div" id="tv_search_input_div">
-                                    <input id="tv_search_input" type="text"
-                                        placeholder="Enter a show title to search for">
-                                    <!--We add multi-selectable radio buttons to filter on genres in js-->
-                                </div>
-                                <button class="search_button" id="tv_search_form_button">Search</button>
-                                </form>
-                            </fieldset>
-                        </footer>
+                     
                     </section>
                 </article>
             </div>
@@ -148,15 +140,22 @@
 
                             <label for="movie_number_of_results">Number of results per page</label>
                             <input id="movie_number_of_results" type="number" min="1" max="20" value="10">
-                            <button id="movie_refresh_results">Refresh</button>
-                            <button id="movie_next_page">Next</button>
+                            <p>
+                                Hit refresh to apply new list-selection options (Top-rated, popular, trending and time frame for trending-list) 
+                                or return to page one with current list-selection 
+                                                                A change of nummber of elements per page gets activated on getting next page 
+
+
+                            </p>
+                            <button id="movie_refresh_results">Refresh list</button>
+                            <button id="movie_next_page">Next page</button>
 
                             <section id="movie_selection_section">
                                 <form id="movie-search-form">
 
                                     <fieldset>
                                         <legend>Search : Movies </legend>
-                                        <fieldset>
+                                        <fieldset  class="search-option-field">
                                             <legend>Search options</legend>
                                             <label for="checkbox_date_input">Premiere date</label>
                                             <input type="checkbox" id="checkbox_date_input" name="checkbox_date_input"
@@ -168,11 +167,9 @@
                                         </fieldset>
                                         <input id="movie_search_text_input" type="text"
                                             placeholder="Enter keyword to search for movies matching that keyword">
-                                        <input id="movie_search_date_input" type="date">
-                                        <input id="movie_search_year_input" type="number" min="1878" ,value="2025"
-                                            ,max="2025">
+                                      
                                         <!--We add multi-selectable radio buttons to filter on genres in js-->
-                                        <button class="search_button" id="movie_search_form_button">Search</button>
+                                        <button type="submit" class="search_button" id="movie_search_form_button">Search</button>
 
 
                                     </fieldset>
@@ -205,13 +202,17 @@
                             <h2 class="selection_title" id="people_title_of_selection">Top 10 Top Rated People in the
                                 industry
                             </h2>
+                            <p>
+                                Hit refresh to apply new list-selection options (Popular, trending, results per page and time frame for the trending list) or go to page one with current list-selection 
+                                                                A change of nummber of elements per page gets activated on getting next page 
 
+                            </p>
                             <select id="person_list_select">
                                 <!--Add options to designate what options to search on : Keyword, year etc-->
                             </select>
                             <input id="person_number_of_results" type="number" min="1" max="20" value="10">
-                            <button id="person_refresh_results">Refresh</button>
-                            <button id="person_next_page">Next</button>
+                            <button  id="person_refresh_results">Refresh list</button>
+                            <button id="person_next_page">Next page</button>
 
                             <section id="person_selection_section">
                                 <form id="person-search-form">
@@ -220,7 +221,7 @@
                                         <input id="person_search_input" type="text"
                                             placeholder="Enter name to search for person">
                                         <!--We add multi-selectable radio buttons to filter on genres in js-->
-                                        <button class="search_button" id="person_search_form_button">Search</button>
+                                        <button type="submit" class="search_button" id="person_search_form_button">Search</button>
 
                                     </fieldset>
                                 </form>
@@ -248,9 +249,7 @@
         </div>
 
     </main>
-    <footer accesskey="f" class="page_footer">
-
-    </footer>
+  
 
 
 </body>

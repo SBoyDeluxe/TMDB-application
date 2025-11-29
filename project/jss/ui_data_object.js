@@ -536,7 +536,8 @@ export class UIDataObject {
 
         function setUpPersonListSelection(personListSelectElement) {
 
-
+            let personSearchForm = document.getElementById("person-search-form");
+       
             let personRefreshButton = document.getElementById("person_refresh_results");
             let nextPageButton = document.getElementById("person_next_page");
 
@@ -1027,11 +1028,11 @@ export class UIDataObject {
         let totalPages;
         let totalResults;
         const personEntityPromise = ApiClient.ApiClient.getPersonList(tableEndpoint).then((personResultList) => {
-             totalPages = personResultList.totalPages;
-                totalResults = personResultList.totalResults;
+            totalPages = personResultList.totalPages;
+            totalResults = personResultList.totalResults;
             Promise.allSettled(personResultList.personResults).then((personList) => {
                 const personResultsContainerDiv = document.getElementById("person_selection_div");
-               
+
 
                 if (personResultsContainerDiv.hasChildNodes) {
 
@@ -2661,6 +2662,7 @@ function presentFilterOptions() {
 
 
 function setUpTvSearchOptions() {
+    let tvSearchForm = document.getElementById("tv-search-form");
     let tvSearchDiv = document.getElementById("tv_search_input_div");
     let tvSearchButton = document.getElementById("tv_search_form_button");
     let tvSeriesOptionArray = new Array(3);
@@ -2679,19 +2681,19 @@ function setUpTvSearchOptions() {
     tvTitleOption.setAttribute("alt", "Search for tv-series on their titles");
 
     //We make a list where the user can select what to search on
-    let tvYearOption = document.getElementById("tv_checkbox_year_input");
-    tvYearOption.setAttribute("value", "year");
+    // let tvYearOption = document.getElementById("tv_checkbox_year_input");
+    // tvYearOption.setAttribute("value", "year");
     //native name for both language and country exists
-    // tvYearOption.setAttribute("text", );
-    tvYearOption.setAttribute("alt", "Search for tv-series on if they had episodes aired that year");
+    //tvYearOption.setAttribute("text", );
+    // tvYearOption.setAttribute("alt", "Search for tv-series on if they had episodes aired that year");
 
 
     //We make a list where the user can select what to search on
-    let tvFirstAirDate = document.getElementById("tv_checkbox_date_input");
+    // let tvFirstAirDate = document.getElementById("tv_checkbox_date_input");
     //native name for both language and country exists
-    // tvFirstAirDate.setAttribute("text", );
-    tvFirstAirDate.setAttribute("alt", "Search for tv-series by their release dates");
-    tvFirstAirDate.setAttribute("label", "Release date");
+    //tvFirstAirDate.setAttribute("text", );
+    // tvFirstAirDate.setAttribute("alt", "Search for tv-series by their release dates");
+    // tvFirstAirDate.setAttribute("label", "Release date");
 
 
 
@@ -2699,247 +2701,223 @@ function setUpTvSearchOptions() {
 
 
 
-    tvFirstAirDate.addEventListener("change", () => {
+    // tvFirstAirDate.addEventListener("change", () => {
 
-        if (tvFirstAirDate.checked) {
-            tvSearchDateInput.setAttribute("class", "displayed_element");
-
-
-        }
-        else {
-            tvSearchDateInput.setAttribute("class", "not_displayed_element");
-
-        }
-    });
-
-    tvYearOption.addEventListener("change", () => {
-        if (tvYearOption.checked) {
-            tvSearchYearInput.setAttribute("class", "displayed_element");
+    //     if (tvFirstAirDate.checked) {
+    //         tvSearchDateInput.setAttribute("class", "displayed_element");
 
 
-        }
-        else {
-            tvSearchYearInput.setAttribute("class", "not_displayed_element");
+    //     }
+    //     else {
+    //         tvSearchDateInput.setAttribute("class", "not_displayed_element");
+
+    //     }
+    // });
+
+    // tvYearOption.addEventListener("change", () => {
+    //     if (tvYearOption.checked) {
+    //         tvSearchYearInput.setAttribute("class", "displayed_element");
 
 
-        }
+    //     }
+    //     else {
+    //         tvSearchYearInput.setAttribute("class", "not_displayed_element");
 
-    });
 
+    //     }
 
+    // });
 
 
 
-    tvSearchButton.addEventListener("click", () => {
-        let queryParameter;
-        let numberOfAddedElements = 0;
-
-        //This array contains what parameters we should include
-        let selectedValues = [tvSearchTextInput.value, tvFirstAirDate.checked, tvYearOption.checked];
 
 
-        if (selectedValues[0] || selectedValues[1] || selectedValues[2]) {
+    tvSearchForm.addEventListener("submit", onTvSearchFormSubmit());
 
-            let queryParameters = new Array(3);
-            selectedValues.forEach((value, index) => {
-                switch (index) {
-                    case 0:
-                        {
-                            if (value) {
-                                queryParameters[index] = "query=" + tvSearchTextInput.value.replaceAll(" ","+");
-                            }
+    function onTvSearchFormSubmit() {
+        return (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            let queryParameter;
+            let numberOfAddedElements = 0;
 
-                        }
-
+            //This array contains what parameters we should include
+            let selectedValues = [tvSearchTextInput.value];
 
 
-                        break;
+            if (selectedValues[0] ) {
 
-
-                    case 1:
-                        {
-
-                            if (value) {
-                                queryParameters[index] = "first_air_date=" + tvSearchDateInput.value;
-
+                let queryParameters = new Array(3);
+                selectedValues.forEach((value, index) => {
+                    switch (index) {
+                        case 0:
+                            {
+                                if (value) {
+                                    queryParameters[index] = "query=" + tvSearchTextInput.value.replaceAll(" ", "+");
+                                }
 
                             }
+
+
 
                             break;
-                        }
-                    case 2: {
 
-                        if (value) {
 
-                            queryParameters[index] = "year=" + tvSearchYearInput.value;
+                     
 
-                        }
-                        break;
 
+                        default:
+                            break;
                     }
 
+                });
 
-                    default:
-                        break;
+                let tvNumberOfElementsInput = document.getElementById("tv_number_of_results");
+
+
+                let searchEndpoint = URLGenerator.getSearchEndpoint(URLGenerator.tableEndpoints.tvShows.base, queryParameters);
+                if (searchEndpoint) {
+
+                    //If the search point can be made we need to reset page count and pageNumber
+                    URLGenerator.resetElementCountAndPageNUmber();
+                    UIDataObject.getSelectionOfTvShows(searchEndpoint, tvNumberOfElementsInput.value);
                 }
 
-            });
-
-            let tvNumberOfElementsInput = document.getElementById("tv_number_of_results");
-
-
-            let searchEndpoint = URLGenerator.getSearchEndpoint(URLGenerator.tableEndpoints.tvShows.base, queryParameters);
-            if (searchEndpoint) {
-
-                //If the search point can be made we need to reset page count and pageNumber
-                URLGenerator.resetElementCountAndPageNUmber();
-                UIDataObject.getSelectionOfTvShows(searchEndpoint, tvNumberOfElementsInput.value);
             }
-
-        }
-    });
+        };
+    }
 }
 
 
 function setUpMovieSearchOptions() {
+    let movieSearchForm = document.getElementById("movie-search-form");
+
     let movieFilterSelectElement = document.getElementById("movie_search_filter_select");
     let movieSearchTextInput = document.getElementById("movie_search_text_input");
-    let movieSearchDateInput = document.getElementById("movie_search_date_input");
-    movieSearchDateInput.setAttribute("class", "not_displayed_element");
-    let movieSearchYearInput = document.getElementById("movie_search_year_input");
-    movieSearchYearInput.setAttribute("class", "not_displayed_element");
-    let movieSearchButton = document.getElementById("movie_search_form_button");
+    // let movieSearchDateInput = document.getElementById("movie_search_date_input");
+    // movieSearchDateInput.setAttribute("class", "not_displayed_element");
+    // let movieSearchYearInput = document.getElementById("movie_search_year_input");
+    // movieSearchYearInput.setAttribute("class", "not_displayed_element");
+    //let movieSearchButton = document.getElementById("movie_search_form_button");
 
 
 
 
     //We make a list where the user can select what to search on
-    let movieYearOption = document.getElementById("checkbox_year_input");
-    movieYearOption.setAttribute("name", "year");
-    //native name for both language and country exists
-    // movieYearOption.setAttribute("text", );
-    movieYearOption.setAttribute("alt", "Search for tv-series on if they had episodes aired that year");
-    movieYearOption.setAttribute("title", "Search for tv-series on if they had episodes aired that year");
-    movieYearOption.setAttribute("label", "Aired on year");
+    // let movieYearOption = document.getElementById("checkbox_year_input");
+    // movieYearOption.setAttribute("name", "year");
+    // //native name for both language and country exists
+    // // movieYearOption.setAttribute("text", );
+    // movieYearOption.setAttribute("alt", "Search for tv-series on if they had episodes aired that year");
+    // movieYearOption.setAttribute("title", "Search for tv-series on if they had episodes aired that year");
+    // movieYearOption.setAttribute("label", "Aired on year");
 
 
 
-    //We make a list where the user can select what to search on
-    let movieFirstAirDate = document.getElementById("checkbox_date_input");
-    movieFirstAirDate.setAttribute("name", "first_air_date");
-    //native name for both language and country exists
-    // movieFirstAirDate.setAttribute("text", );
-    movieFirstAirDate.setAttribute("alt", "Search for tv-series by their release dates");
-    movieFirstAirDate.setAttribute("title", "Search for tv-series by their release dates");
-    movieFirstAirDate.setAttribute("label", "Release date");
+    // //We make a list where the user can select what to search on
+    // let movieFirstAirDate = document.getElementById("checkbox_date_input");
+    // movieFirstAirDate.setAttribute("name", "first_air_date");
+    // //native name for both language and country exists
+    // // movieFirstAirDate.setAttribute("text", );
+    // movieFirstAirDate.setAttribute("alt", "Search for tv-series by their release dates");
+    // movieFirstAirDate.setAttribute("title", "Search for tv-series by their release dates");
+    // movieFirstAirDate.setAttribute("label", "Release date");
 
-    movieFirstAirDate.addEventListener("change", () => {
+    // movieFirstAirDate.addEventListener("change", () => {
 
-        if (movieFirstAirDate.checked) {
-            movieSearchDateInput.setAttribute("class", "displayed_element");
-
-
-        }
-        else {
-            movieSearchDateInput.setAttribute("class", "not_displayed_element");
-
-        }
-    });
-
-    movieYearOption.addEventListener("change", () => {
-        if (movieYearOption.checked) {
-            movieSearchYearInput.setAttribute("class", "displayed_element");
+    //     if (movieFirstAirDate.checked) {
+    //         movieSearchDateInput.setAttribute("class", "displayed_element");
 
 
-        }
-        else {
-            movieSearchYearInput.setAttribute("class", "not_displayed_element");
+    //     }
+    //     else {
+    //         movieSearchDateInput.setAttribute("class", "not_displayed_element");
+
+    //     }
+    // });
+
+    // movieYearOption.addEventListener("change", () => {
+    //     if (movieYearOption.checked) {
+    //         movieSearchYearInput.setAttribute("class", "displayed_element");
 
 
-        }
+    //     }
+    //     else {
+    //         movieSearchYearInput.setAttribute("class", "not_displayed_element");
 
-    });
 
+    //     }
 
+    // });
 
 
 
-    movieSearchButton.addEventListener("click", () => {
-        let queryParameter;
-        let numberOfAddedElements = 0;
-
-        //This array contains what parameters we should include
-        let selectedValues = [movieSearchTextInput.value, movieFirstAirDate.checked, movieYearOption.checked];
 
 
-        if (selectedValues[0] || selectedValues[1] || selectedValues[2]) {
+    movieSearchForm.addEventListener("submit", onMovieSearchFormSubmit());
 
-            let queryParameters = new Array(3);
-            selectedValues.forEach((value, index) => {
-                switch (index) {
-                    case 0:
-                        {
-                            if (value) {
-                                queryParameters[index] = "query=" + movieSearchTextInput.value.replaceAll(" ","+");
-                            }
+    function onMovieSearchFormSubmit() {
+        return (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            let queryParameter;
+            let numberOfAddedElements = 0;
 
-                        }
-
+            //This array contains what parameters we should include
+            let selectedValues = [movieSearchTextInput.value];
 
 
-                        break;
+            if (selectedValues[0] ) {
 
-
-                    case 1:
-                        {
-
-                            if (value) {
-                                queryParameters[index] = "first_air_date=" + movieSearchDateInput.value;
-
+                let queryParameters = new Array(1);
+                selectedValues.forEach((value, index) => {
+                    switch (index) {
+                        case 0:
+                            {
+                                if (value) {
+                                    queryParameters[index] = "query=" + movieSearchTextInput.value.replaceAll(" ", "+");
+                                }
 
                             }
+
+
 
                             break;
-                        }
-                    case 2: {
 
-                        if (value) {
 
-                            queryParameters[index] = "year=" + movieSearchYearInput.value;
+                        
 
-                        }
-                        break;
 
+                        default:
+                            break;
                     }
 
+                });
 
-                    default:
-                        break;
+                let movieNumberOfElementsInput = document.getElementById("movie_number_of_results");
+
+
+                let searchEndpoint = URLGenerator.getSearchEndpoint(URLGenerator.tableEndpoints.movies, queryParameters);
+                if (searchEndpoint) {
+
+                    //If the search point can be made we need to reset page count and pageNumber
+                    URLGenerator.resetElementCountAndPageNUmber();
+                    UIDataObject.getSelectionOfMovies(searchEndpoint, movieNumberOfElementsInput.value);
                 }
-
-            });
-
-            let movieNumberOfElementsInput = document.getElementById("movie_number_of_results");
-
-
-            let searchEndpoint = URLGenerator.getSearchEndpoint(URLGenerator.tableEndpoints.movies, queryParameters);
-            if (searchEndpoint) {
-
-                //If the search point can be made we need to reset page count and pageNumber
-                URLGenerator.resetElementCountAndPageNUmber();
-                UIDataObject.getSelectionOfMovies(searchEndpoint, movieNumberOfElementsInput.value);
             }
-        }
-        else {
+            else {
 
-            alert("Please make sure you have not left the search field empty!");
-        }
+                alert("Please make sure you have not left the search field empty!");
+            }
 
 
-    });
+        };
+    }
 }
 
 function setUpPersonSearchOptions() {
+    let personSearchForm = document.getElementById("person-search-form");
+
     let personSearchInput = document.getElementById("person_search_input");
     let personNumberOfResultsPerPage = document.getElementById("person_number_of_results");
     let personSearchButton = document.getElementById("person_search_form_button");
@@ -2947,24 +2925,30 @@ function setUpPersonSearchOptions() {
 
 
     //on click of either air date or year we want to show a calendar to pick dates from
-    personSearchButton.addEventListener("click", () => {
+    personSearchForm.addEventListener("submit", onPersonSearchFormSubmit());
+
+    function onPersonSearchFormSubmit() {
+        return (event) => {
+            event.preventDefault();
+            event.stopPropagation();
 
 
-        if (personSearchInput.value) {
+            if (personSearchInput.value) {
 
-            let nameQueryParameter = "query=" + personSearchInput.value.replaceAll(" ","+");
-            let numberOfResults = personNumberOfResultsPerPage.value;
-            let searchEndpoint = URLGenerator.getSearchEndpoint(URLGenerator.tableEndpoints.person, [nameQueryParameter]);
-            UIDataObject.getSelectionOfPeople(searchEndpoint, numberOfResults);
+                let nameQueryParameter = "query=" + personSearchInput.value.replaceAll(" ", "+");
+                let numberOfResults = personNumberOfResultsPerPage.value;
+                let searchEndpoint = URLGenerator.getSearchEndpoint(URLGenerator.tableEndpoints.person, [nameQueryParameter]);
+                UIDataObject.getSelectionOfPeople(searchEndpoint, numberOfResults);
 
-        }
-        else {
+            }
+            else {
 
-            alert("Please make sure you have not left the search field empty!");
-        }
+                alert("Please make sure you have not left the search field empty!");
+            }
 
 
-    });
+        };
+    }
 }
 
 

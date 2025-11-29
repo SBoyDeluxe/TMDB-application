@@ -6,6 +6,13 @@ html {
     font-family: Arial;
 }
 
+#tv-search-date-input, #tv-search-year-input, #movie-search-date-input, #movie-search-year-input{
+    display: none;
+}
+
+.search-option-field{
+    display: none;
+}
 /* Style tab links */
 .tablink {
     background-color: #555;
