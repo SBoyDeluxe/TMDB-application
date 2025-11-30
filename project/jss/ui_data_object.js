@@ -852,23 +852,23 @@ export class UIDataObject {
 
             switch (tableEndpoint) {
                 case URLGenerator.tableEndpoints.popularMovies:
-                    UIDataObject.setTextTitleForSelection(`Popular movies : showing result  ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                    UIDataObject.setTextTitleForSelection(`Popular movies : showing result  ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Total results : ${totalResults} movies  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown) `);
 
                     break;
                 case URLGenerator.tableEndpoints.topRatedMovies:
-                    UIDataObject.setTextTitleForSelection(`Top Rated Movies : showing result  ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                    UIDataObject.setTextTitleForSelection(`Top Rated Movies : showing result  ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Total results : ${totalResults} movies  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown)  `);
 
                     break;
 
                 case URLGenerator.tableEndpoints.trending.movies + "/day":
-                    UIDataObject.setTextTitleForSelection(` Trending (today) : showing result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                    UIDataObject.setTextTitleForSelection(` Trending (today) : showing result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Total results : ${totalResults} movies  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown) `);
 
                     break;
                 case URLGenerator.tableEndpoints.trending.movies + "/week":
-                    UIDataObject.setTextTitleForSelection(` Trending (this week) : showing result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                    UIDataObject.setTextTitleForSelection(` Trending (this week) : showing result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Total results : ${totalResults} movies  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown) `);
 
                     break;
@@ -1008,23 +1008,23 @@ export class UIDataObject {
 
             switch (tableEndpoint) {
                 case URLGenerator.tableEndpoints.popularTvShows:
-                    UIDataObject.setTextTitleForSelection(`Popular Tv-shows : showing result  ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                    UIDataObject.setTextTitleForSelection(`Popular Tv-shows : showing result  ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Total results: ${totalResults} tv-shows  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown) `);
 
                     break;
                 case URLGenerator.tableEndpoints.topRatedTvShows:
-                    UIDataObject.setTextTitleForSelection(`Top Rated Tv-shows : showing result  ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                    UIDataObject.setTextTitleForSelection(`Top Rated Tv-shows : showing result  ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Total results: ${totalResults} tv-shows  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown)  `);
 
                     break;
 
                 case URLGenerator.tableEndpoints.trending.tvShows + "/day":
-                    UIDataObject.setTextTitleForSelection(` Trending Tv-shows (today) : showing result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                    UIDataObject.setTextTitleForSelection(` Trending Tv-shows (today) : showing result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Total results: ${totalResults} tv-shows  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown) `);
 
                     break;
                 case URLGenerator.tableEndpoints.trending.tvShows + "/week":
-                    UIDataObject.setTextTitleForSelection(` Trending Tv-shows Shows (This Week) : Showing Result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                    UIDataObject.setTextTitleForSelection(` Trending Tv-shows Shows (This Week) : Showing Result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Total results: ${totalResults} tv-shows  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown) `);
 
                     break;
@@ -1152,19 +1152,19 @@ export class UIDataObject {
 
                 switch (tableEndpoint) {
                     case URLGenerator.tableEndpoints.popularPeople:
-                        UIDataObject.setTextTitleForSelection(`Popular People : showing result  ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                        UIDataObject.setTextTitleForSelection(`Popular People : showing result  ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n Total results : ${totalResults} people  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown) `);
 
                         break;
 
 
                     case URLGenerator.tableEndpoints.trending.people + "/day":
-                        UIDataObject.setTextTitleForSelection(` Trending (today) : showing result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                        UIDataObject.setTextTitleForSelection(` Trending (today) : showing result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n Total results : ${totalResults} people  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown) `);
 
                         break;
                     case URLGenerator.tableEndpoints.trending.People + "/week":
-                        UIDataObject.setTextTitleForSelection(` Trending (this week) : showing result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n  Out of : ${totalResults} results.  
+                        UIDataObject.setTextTitleForSelection(` Trending (this week) : showing result ${totalNumberShown + 1} -> ${+totalNumberShown + +numberOfElements}`, `\n Total results : ${totalResults} people  
                                     \n Currently on Page : ${totalPagesShowInRelationToNmbrOfElmnts} out of ${totalPagesnRelationToNmbrOfElmnts} (${((totalPagesShowInRelationToNmbrOfElmnts / totalPagesnRelationToNmbrOfElmnts)) * 100} % has been shown) `);
 
                         break;
