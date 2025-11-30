@@ -452,7 +452,7 @@ export class UIDataObject {
             //Trending requires day or week to be input
             tvListSelectElement.addEventListener("change", () => {
 
-                if (movieListSelectElement.options.selectedIndex != 2) {
+                if (tvListSelectElement.options.selectedIndex != 2) {
                     timeFrameSelectElement.setAttribute("class", "not_displayed_element");
 
                 }
