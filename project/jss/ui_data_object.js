@@ -537,7 +537,7 @@ export class UIDataObject {
         function setUpPersonListSelection(personListSelectElement) {
 
             let personSearchForm = document.getElementById("person-search-form");
-       
+
             let personRefreshButton = document.getElementById("person_refresh_results");
             let nextPageButton = document.getElementById("person_next_page");
 
@@ -779,9 +779,16 @@ export class UIDataObject {
     static getSelectionOfMovies(tableEndpoint, numberOfElements) {
         let totalResults;
         let totalPages;
+        const progressBarDiv = UIDataObject.createLoadingIndicator();
+
+        const moviesMainSection = document.getElementById("movies_main_element");
+
+        moviesMainSection.prepend(progressBarDiv);
+
 
         const moviePromise = ApiClient.ApiClient.getMovieList(tableEndpoint).then((movieList) => {
             //If we obtain an empty response, totalResultss == 0, we tell the user no results could be found 
+
 
             totalPages = movieList.totalPages;
             totalResults = movieList.totalResults;
@@ -789,7 +796,7 @@ export class UIDataObject {
             return Promise.allSettled(movieList.movieResults);
         }).catch((error) => console.log(error));
         moviePromise.then((top10List) => {
-
+            moviesMainSection.removeChild(progressBarDiv);
             if (totalResults == 0) {
 
                 alert("Sorry! No results were found on those search parameters!");
@@ -883,6 +890,18 @@ export class UIDataObject {
 
 
     }
+    static createLoadingIndicator() {
+        const progressBarDiv = document.createElement("div");
+        const progressBar = document.createElement("progress");
+        const loadingText = document.createElement("i");
+        loadingText.textContent = "Getting results...";
+        progressBarDiv.setAttribute("id", "progress_bar_div");
+        progressBar.setAttribute("id", "progress_bar");
+        progressBarDiv.append(loadingText);
+        progressBarDiv.append(progressBar);
+        return progressBarDiv;
+    }
+
     /**
      * 
      * @param {number} numberOfElements 
@@ -926,6 +945,11 @@ export class UIDataObject {
 
         let totalResults;
         let totalPages;
+        const progressBarDiv = UIDataObject.createLoadingIndicator();
+
+        const tvSeriesMainSection = document.getElementById("tv_series_main_section");
+
+        tvSeriesMainSection.prepend(progressBarDiv);
 
         const tvPromise = ApiClient.ApiClient.getTvList(tableEndpoint).then((tvList) => {
             totalPages = tvList.total_pages;
@@ -944,6 +968,8 @@ export class UIDataObject {
         }).catch((error) => this.alertOfError(error));
 
         tvPromise.then((top10List) => {
+                    tvSeriesMainSection.removeChild(progressBarDiv);
+
 
             const tvResultsContainerDiv = document.getElementById("tv_series_selection_div");
             if (tvResultsContainerDiv.hasChildNodes) {
@@ -1027,13 +1053,19 @@ export class UIDataObject {
 
         let totalPages;
         let totalResults;
+
+        const progressBarDiv = UIDataObject.createLoadingIndicator();
+
+        const personMainSection = document.getElementById("person_main_section");
+
+        personMainSection.prepend(progressBarDiv);
         const personEntityPromise = ApiClient.ApiClient.getPersonList(tableEndpoint).then((personResultList) => {
             totalPages = personResultList.totalPages;
             totalResults = personResultList.totalResults;
             Promise.allSettled(personResultList.personResults).then((personList) => {
                 const personResultsContainerDiv = document.getElementById("person_selection_div");
 
-
+                personMainSection.removeChild(progressBarDiv);
                 if (personResultsContainerDiv.hasChildNodes) {
 
                     UIDataObject.emptyDisplayedResultsContainer(personResultsContainerDiv);
@@ -2745,7 +2777,7 @@ function setUpTvSearchOptions() {
             let selectedValues = [tvSearchTextInput.value];
 
 
-            if (selectedValues[0] ) {
+            if (selectedValues[0]) {
 
                 let queryParameters = new Array(3);
                 selectedValues.forEach((value, index) => {
@@ -2763,7 +2795,7 @@ function setUpTvSearchOptions() {
                             break;
 
 
-                     
+
 
 
                         default:
@@ -2867,7 +2899,7 @@ function setUpMovieSearchOptions() {
             let selectedValues = [movieSearchTextInput.value];
 
 
-            if (selectedValues[0] ) {
+            if (selectedValues[0]) {
 
                 let queryParameters = new Array(1);
                 selectedValues.forEach((value, index) => {
@@ -2885,7 +2917,7 @@ function setUpMovieSearchOptions() {
                             break;
 
 
-                        
+
 
 
                         default:

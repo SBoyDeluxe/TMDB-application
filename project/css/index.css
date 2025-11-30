@@ -168,6 +168,8 @@ html {
 
 }
 
+
+
 /* /* .focused {
 
 
@@ -188,6 +190,7 @@ html {
 
     background-color: gray;
 }
+
 
 #result_focused_div .ruby_div {
     display: inline;
@@ -214,6 +217,7 @@ html {
 
     max-width: 40vw;
     max-height: 40vh;
+    cursor:default
 
 }
 
