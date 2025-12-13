@@ -11,6 +11,10 @@ export class UIDataObject {
 
 
     static promptLanguageSelection() {
+
+        if(!navigator.onLine){
+            alert("We can´t detect a network connection - Welcome back as soon as you get wifi!");
+        }
         /*  <!-- A template for the language selection interface to be shown before documenting the primary home page content-->
         <template id = language_selection_template>
             
@@ -401,7 +405,7 @@ export class UIDataObject {
         }
         function setUpTvListSelection(tvListSelectElement) {
 
-            let personRefreshButton = document.getElementById("tv_refresh_results");
+            let tvRefreshButton = document.getElementById("tv_refresh_results");
             let nextPageButton = document.getElementById("tv_next_page");
 
 
@@ -495,7 +499,7 @@ export class UIDataObject {
 
             });
 
-            personRefreshButton.addEventListener("click", () => {
+            tvRefreshButton.addEventListener("click", () => {
                 //on preseeing reset button we want to see refresh to chosen list with number of results given
                 let tvNumberOfElementsInput = document.getElementById("tv_number_of_results");
 
@@ -794,7 +798,7 @@ export class UIDataObject {
             totalResults = movieList.totalResults;
 
             return Promise.allSettled(movieList.movieResults);
-        }).catch((error) => console.log(error));
+        }).catch((error) => alert(error));
         moviePromise.then((top10List) => {
             moviesMainSection.removeChild(progressBarDiv);
             if (totalResults == 0) {
@@ -965,10 +969,10 @@ export class UIDataObject {
             }
             return Promise.allSettled(tvList.results);
 
-        }).catch((error) => this.alertOfError(error));
+        }).catch((error) => alert(error));
 
         tvPromise.then((top10List) => {
-                    tvSeriesMainSection.removeChild(progressBarDiv);
+            tvSeriesMainSection.removeChild(progressBarDiv);
 
 
             const tvResultsContainerDiv = document.getElementById("tv_series_selection_div");
@@ -1054,18 +1058,46 @@ export class UIDataObject {
         let totalPages;
         let totalResults;
 
+
+
         const progressBarDiv = UIDataObject.createLoadingIndicator();
 
         const personMainSection = document.getElementById("person_main_section");
 
         personMainSection.prepend(progressBarDiv);
+        //Personlist throws errors to catch if something goes wrong with the fetching call - Network down etc.
         const personEntityPromise = ApiClient.ApiClient.getPersonList(tableEndpoint).then((personResultList) => {
             totalPages = personResultList.totalPages;
             totalResults = personResultList.totalResults;
-            Promise.allSettled(personResultList.personResults).then((personList) => {
-                const personResultsContainerDiv = document.getElementById("person_selection_div");
+            //Settled means future settled, not guaranteed success 
+            return Promise.allSettled(personResultList.personResults);
+
+        }).catch((error) => alert(error));
+
+
+
+        //Display the given entities now constructed 
+        personEntityPromise.then((personList) => {
+
+            if (totalResults == 0) {
+
 
                 personMainSection.removeChild(progressBarDiv);
+                alert("Sorry, no results were found matching that search!");
+
+
+                const personRefreshButton = document.getElementById("person_refresh_results");
+
+                //
+                // Refreshes the selection to list-selection (top 1->20 popular, trending etc.) using the given settings in selection field 
+                personRefreshButton.click();
+
+            } else {
+
+                // All results have loaded, remove progess bar
+                personMainSection.removeChild(progressBarDiv);
+                const personResultsContainerDiv = document.getElementById("person_selection_div");
+
                 if (personResultsContainerDiv.hasChildNodes) {
 
                     UIDataObject.emptyDisplayedResultsContainer(personResultsContainerDiv);
@@ -1148,7 +1180,7 @@ export class UIDataObject {
                 }
 
 
-                let pageSelect = document.getElementById("movie_page_select");
+                let pageSelect = document.getElementById("person_page_select");
 
                 switch (tableEndpoint) {
                     case URLGenerator.tableEndpoints.popularPeople:
@@ -1176,40 +1208,15 @@ export class UIDataObject {
 
                 //Upon completing actually showing the results on screen we increase the pageCount 
                 UIDataObject.increaseElementResultCount(numberOfElements);
-            });
-
-
-
-
+            }
         });
-
-        /**name;
-placeOfBirth;
-knownFor;
-adultRated;
-alsoKnownAs;
-biography;
-birthday;
-deathday;
-id;
-imdbId;
-imageObject; */
-
-
-
-
-
-
-
-
-
     }
     static emptyDisplayedResultsContainer(personResultsContainerDiv) {
         let children = Array.from(personResultsContainerDiv.children);
 
         children.forEach((child) => {
 
-            child.remove();
+            personResultsContainerDiv.removeChild(child);
         });
     }
 
@@ -1265,8 +1272,8 @@ imageObject; */
         let returnDivs;
         let resultsToPost;
         if (numberOfElements) {
-            returnDivs = new Array(numberOfElements);
-            resultsToPost = results.slice(URLGenerator.pageVariables.nextPageCount, (numberOfElements + URLGenerator.pageVariables.nextPageCount));
+            returnDivs = new Array(+numberOfElements);
+            resultsToPost = results.slice(URLGenerator.pageVariables.nextPageCount, (+numberOfElements + URLGenerator.pageVariables.nextPageCount));
 
         } else {
             returnDivs = new Array(results.length);
@@ -2808,13 +2815,22 @@ function setUpTvSearchOptions() {
 
 
                 let searchEndpoint = URLGenerator.getSearchEndpoint(URLGenerator.tableEndpoints.tvShows.base, queryParameters);
-                if (searchEndpoint) {
+                if (searchEndpoint && navigator.onLine) {
 
                     //If the search point can be made we need to reset page count and pageNumber
                     URLGenerator.resetElementCountAndPageNUmber();
                     UIDataObject.getSelectionOfTvShows(searchEndpoint, tvNumberOfElementsInput.value);
                 }
+                else if (!navigator.onLine) {
+                    //Prioritized over search endpoint
+                    alert("You do not seem to have internet connection, welcome back as soon as you have wifi!");
 
+                }
+
+            }
+            else{
+
+                alert("The text field can not be empty, please try again!");
             }
         };
     }
@@ -2930,11 +2946,16 @@ function setUpMovieSearchOptions() {
 
 
                 let searchEndpoint = URLGenerator.getSearchEndpoint(URLGenerator.tableEndpoints.movies, queryParameters);
-                if (searchEndpoint) {
+                if (searchEndpoint && navigator.onLine) {
 
                     //If the search point can be made we need to reset page count and pageNumber
                     URLGenerator.resetElementCountAndPageNUmber();
                     UIDataObject.getSelectionOfMovies(searchEndpoint, movieNumberOfElementsInput.value);
+                }
+                else if (!navigator.onLine) {
+                    //Prioritized over search endpoint
+                    alert("You do not seem to have internet connection, welcome back as soon as you have wifi!");
+
                 }
             }
             else {
@@ -2970,8 +2991,17 @@ function setUpPersonSearchOptions() {
                 let nameQueryParameter = "query=" + personSearchInput.value.replaceAll(" ", "+");
                 let numberOfResults = personNumberOfResultsPerPage.value;
                 let searchEndpoint = URLGenerator.getSearchEndpoint(URLGenerator.tableEndpoints.person, [nameQueryParameter]);
-                UIDataObject.getSelectionOfPeople(searchEndpoint, numberOfResults);
+                if (searchEndpoint && navigator.onLine) {
 
+                    //If the search point can be made we need to reset page count and pageNumber
+                    URLGenerator.resetElementCountAndPageNUmber();
+                    UIDataObject.getSelectionOfPeople(searchEndpoint, numberOfResults.value);
+                }
+                else if (!navigator.onLine) {
+                    //Prioritized over search endpoint non existence
+                    alert("You do not seem to have internet connection, welcome back as soon as you have wifi!");
+
+                }
             }
             else {
 

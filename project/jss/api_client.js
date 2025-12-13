@@ -435,6 +435,8 @@ export class ApiClient {
      */
     static getTvList(pathToEndpoint) {
 
+        let isOnline = navigator.onLine;
+        if(isOnline){
         const promise = fetch(url_generator.getTvListUrl(pathToEndpoint), URLGenerator.options).then((response) => {
             if (response.ok) {
                 return response.json();
@@ -457,6 +459,10 @@ export class ApiClient {
         });
 
         return promise;
+    }else{
+        //Not online, tell user they can´t search unless online
+        alert("Sorry, you seem to be offline right now - Welcome back as soon as you have wifi!");
+    }
     }
 
     static getPersonList(endpoint) {
